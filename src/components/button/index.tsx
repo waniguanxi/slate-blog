@@ -7,13 +7,13 @@ const ButtonTypes = ['default', 'link'] as const;
 export type ButtonType = (typeof ButtonTypes)[number];
 
 export interface BaseButtonProps {
-  /** 设置按钮类型, 默认 default */
+  /** Set button type, default is 'default' */
   type?: ButtonType;
   className?: string;
-  /** 将按钮宽度调整为其父宽度 */
+  /** Adjust button width to match parent width */
   block?: boolean;
   children?: ReactNode;
-  /** 禁用 */
+  /** Disabled state */
   disabled?: boolean;
   [key: `data-${string}`]: string;
   onClick?: React.MouseEventHandler<HTMLElement>;
@@ -27,9 +27,9 @@ type MergedHTMLAttributes = Omit<
 >;
 
 export interface ButtonProps extends BaseButtonProps, MergedHTMLAttributes {
-  /** 点击跳转的地址 */
+  /** URL to navigate to when clicked */
   href?: string;
-  /** 相当于 a 链接的 target 属性，href 存在时生效 */
+  /** Equivalent to anchor tag's target attribute, works when href is present */
   target?: string;
 }
 

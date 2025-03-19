@@ -13,7 +13,7 @@ export interface ThemeOptions {
   enableUserChange?: boolean;
 }
 
-/** 社交链接配置 */
+/** Interface for social link */
 export interface SocialLink {
   icon: SocialLinkIcon;
   link: string;

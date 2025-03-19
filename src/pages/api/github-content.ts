@@ -9,7 +9,7 @@ export const get: APIRoute = async ({ params, request }) => {
   const url = new URL(request.url);
   const owner = url.searchParams.get('owner');
   const repo = url.searchParams.get('repo');
-  const path = url.searchParams.get('path');
+  const path = url.searchParams.get('path');  
 
   if (!owner || !repo || !path) {
     return new Response(JSON.stringify({ error: 'Missing parameters' }), { status: 400 });
@@ -29,6 +29,6 @@ export const get: APIRoute = async ({ params, request }) => {
       return new Response(JSON.stringify({ error: 'File not found' }), { status: 404 });
     }
   } catch (error) {
-    return new Response(JSON.stringify({ error: 'Error fetching content' }), { status: 500 });
+    return new Response(JSON.stringify({ error: `Error fetching content for params: ${params} with error: ${error}` }), { status: 500 });
   }
 };

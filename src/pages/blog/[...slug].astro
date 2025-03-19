@@ -82,16 +82,13 @@ const formattedPubDate = pubDate.isSame(dayjs(), 'year')
         </div>
       )
     }
-  </div>
-  <!-- E 内容 -->
-  <!-- S 目录 -->
+  </div>  
   <Toc
     className="fixed top-0 right-0 bottom-0 hidden w-64 xl:block"
     listClassName="px-5 pt-44 pb-14 "
     dataSource={headings}
     client:visible
-  />
-  <!-- E 目录 -->
+  />  
 </PageLayout>
 
 <script src="//unpkg.com/heti/umd/heti-addon.min.js" is:inline></script>
