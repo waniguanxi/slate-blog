@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
-export interface AffixTitleProps {
-  /** 距离窗口顶部达到指定偏移量后触发, 默认 320 */
+export interface AffixTitleProps {  
   offsetTop?: number;
   title: string;
 }

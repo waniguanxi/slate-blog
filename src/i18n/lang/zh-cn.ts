@@ -1,14 +1,14 @@
 export default {
   common: {
     /** all tags */
-    all: '全部',
+    all: 'All',
   },
   blog: {
-    lastModified: '编辑于',
-    readingTime: '{{minutes}} 分钟阅读'
+    lastModified: 'Last modified',
+    readingTime: '{{minutes}} min read'
   },
   404: {
-    pageText: '你访问的页面不存在',
-    backBtnText: '返回首页'
+    pageText: 'Page not found',
+    backBtnText: 'Back to home'
   }
 }

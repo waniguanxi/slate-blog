@@ -5,7 +5,7 @@ import type { SlateConfig, ThemeOptions } from '@/typings/config';
 
 /** Default configuration */
 const defaultConfig: Partial<SlateConfig> = {
-  lang: 'zh-CN',
+  lang: 'en-US',
   theme: {
     mode: 'auto',
     enableUserChange: true,
