@@ -36,6 +36,7 @@
     "@astrojs/sitemap": "^3.2.1",
     "@docsearch/css": "^3.6.2",
     "@docsearch/react": "^3.6.2",
+    "@octokit/rest": "^21.1.1",
     "@radix-ui/colors": "^3.0.0",
     "@tailwindcss/vite": "^4.0.3",
     "@types/node": "^22.8.4",
