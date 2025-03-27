@@ -14,9 +14,15 @@ import 'remark-block-containers/css';
 import '@/assets/style/blog.css';
 
 export async function getStaticPaths() {
+
+  // Read post entries from Contents/Posts folder in current repo
   const postEntries = await getCollection('post', ({ data }) => {
     return import.meta.env.DEV || data.draft !== true;
   });
+
+  // async function fetchBlogContent(owner: string, repo: string, path: string){
+  //   const response
+  // }
 
   return postEntries.map((post) => ({
     params: { slug: post.slug },
