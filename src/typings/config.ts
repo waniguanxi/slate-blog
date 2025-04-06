@@ -69,6 +69,5 @@ export interface SlateConfig {
     feedId: string;
     userId: string;
   };
-  /** 社交链接 */
   socialLinks?: SocialLink[];
 }
