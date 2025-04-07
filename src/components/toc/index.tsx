@@ -1,7 +1,3 @@
-/*
- * @Author: kim
- * @Description: 目录
- */
 import type { MarkdownHeading } from 'astro';
 import classNames from 'classnames';
 
