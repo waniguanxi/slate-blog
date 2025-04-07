@@ -1,25 +1,6 @@
-import { title } from "process";
 
-interface GitHubContent {
-  id: string;
-  slug: string;
-  data: {
-    title: string;
-    pubDate: string;
-    draft: boolean;
-    description?: string;
-    [key: string]: any;
-  };
-  body: string;
-  render: () => Promise<{
-    Content: string;
-    headings: any[];
-    remarkPluginFrontmatter: {
-      lastModified?: string;
-      minutesRead: string;
-    };
-  }>;
-}
+import { type GitHubContent } from '../types/github-content'
+import { type GithubFileItem } from '../types/github-file-item'
 
 const GITHUB_TOKEN = import.meta.env.GITHUB_BLOG_TOKEN;
 const GITHUB_OWNER = import.meta.env.GITHUB_OWNER;
@@ -45,9 +26,9 @@ async function fetchGitHubContent(owner: string, repo: string, path: string) {
     if (!response.ok) {
       throw new Error(`GitHub API error: ${response.status}`);
     }
+    
+    return await response.text();
 
-    const content = await response.text();
-    return content;
   } catch (error) {
     console.error('Error fetching from GitHub:', error);
     throw error;
@@ -74,7 +55,7 @@ async function listGitHubFiles(owner: string, repo: string, path: string) {
     const files = await response.json();
     
     return Array.isArray(files) 
-      ? files.filter((file: any) => file.name.endsWith('.md'))
+      ? files.filter((file: File) => file.name.endsWith('.md'))
       : [];
   } catch (error) {
     console.error('Error listing GitHub files:', error);
@@ -100,7 +81,6 @@ function parseFrontMatter(content: string) {
           return [key.trim(), values.join(':').trim()];
         })
     );
-
     return {
       data,
       content: restContent
@@ -115,21 +95,23 @@ export async function getGitHubPosts(): Promise<GitHubContent[]> {
   try {    
     const postsPath = 'posts';
 
-    const files = await listGitHubFiles(GITHUB_OWNER, GITHUB_REPO, postsPath);
+    const files: GithubFileItem[] = await listGitHubFiles(GITHUB_OWNER, GITHUB_REPO, postsPath);
        
     const posts = await Promise.all(
-      files.map(async (file: any) => {
+      files.map(async (file: GithubFileItem) => {        
         const content = await fetchGitHubContent(GITHUB_OWNER, GITHUB_REPO, file.path);
-        const { data, content: bodyContent } = parseFrontMatter(content);
-        const title = data.title || file.name.replace('.md', '');
+        const { data, content: bodyContent } = parseFrontMatter(content);        
+        const { title, description, tags, draft, pubDate} = data;
+
         return {
           id: file.name,
           slug: file.name.replace('.md', ''),
           data: {
-            ...data,
-            draft: data.draft === 'true',
-            pubDate: new Date(data.pubDate || Date.now()).toISOString(),
-            title: title
+            title: title || file.name.replace('.md', ''),
+            description,
+            tags,
+            draft: draft === 'true',
+            pubDate: new Date(pubDate || Date.now())            
           },
           body: bodyContent,
           render: async () => ({
@@ -140,10 +122,9 @@ export async function getGitHubPosts(): Promise<GitHubContent[]> {
               minutesRead: '5'
             }
           })
-        };
+        } as GitHubContent;
       })
-    );
-    console.log('Posts: ', posts);
+    );    
     return posts;
   } catch (error) {
     console.error('Failed to fetch posts:', error);
@@ -151,4 +132,4 @@ export async function getGitHubPosts(): Promise<GitHubContent[]> {
   }
 }
 
-export type { GitHubContent };
+

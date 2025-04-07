@@ -1,6 +1,6 @@
 ---
 import dayjs from 'dayjs';
-import { type CollectionEntry } from 'astro:content';
+//import { type CollectionEntry } from 'astro:content';
 import i18next from '@/i18n';
 import PageLayout from '@/components/layouts/PageLayout.astro';
 import ArticleJsonLd from '@/components/json-ld/article.astro';
@@ -12,9 +12,9 @@ import slateConfig from '~@/slate.config';
 import { getFullTitle } from '@/helpers/utils';
 import 'remark-block-containers/css';
 import '@/assets/style/blog.css';
-import { getGitHubPosts, type GitHubContent } from '@/pages/api/github-content'
-import type { GetStaticPaths } from 'astro';
-
+import { getGitHubPosts } from '@/lib/api/github-content'
+import { type GitHubContent } from '@/lib/types/github-content'
+import { json } from 'stream/consumers';
 
 // Replace getStaticPaths with GitLab fetching logic
 export const getStaticPaths = (async () => {
@@ -33,6 +33,7 @@ export const getStaticPaths = (async () => {
 type Props = GitHubContent;
 
 const post = Astro.props;
+
 const { Content, remarkPluginFrontmatter, headings } = await post.render();
 const lastModifiedDate = dayjs(
   remarkPluginFrontmatter.lastModified
